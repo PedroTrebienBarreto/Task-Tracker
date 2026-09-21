@@ -10,23 +10,25 @@ public class Task {
     private Priority priority;
     private Recurrence recurrence;
 
-    private List<Task> toDoTasks = new ArrayList<>();
+    private static List<Task> toDoTasks = new ArrayList<>();
     private List<Task> lateTasks = new ArrayList<>();
     private List<Task> completedTasks = new ArrayList<>();
 
-    public Task() {
+    private Task() {
 
     }
 
-    public Task(String task, String observation, LocalDate date, Priority priority, Recurrence recurrence) {
-        this.task = task;
-        this.observation = observation;
-        this.date = date;
-        this.priority = priority;
-        this.recurrence = recurrence;
+    public static Task brandNewTask(String task, String observation, LocalDate date, Priority priority, Recurrence recurrence) {
+        Task brandNewTask = new Task();
+        brandNewTask.setTask(task);
+        brandNewTask.setObservation(observation);
+        brandNewTask.setDate(date);
+        brandNewTask.setPriority(priority);
+        brandNewTask.setRecurrence(recurrence);
+        return brandNewTask;
     }
 
-    public Task TaskNoObservation(String task, LocalDate date, Priority priority, Recurrence recurrence) {
+    public static Task TaskNoObservation(String task, LocalDate date, Priority priority, Recurrence recurrence) {
         Task newTask = new Task();
         newTask.setTask(task);
         newTask.setDate(date);
@@ -36,13 +38,13 @@ public class Task {
 
     }
 
-    public void addTask(String task, String observation, LocalDate date, Priority priority, Recurrence recurrence){
+    public static void addTask(String task, String observation, LocalDate date, Priority priority, Recurrence recurrence){
         Task newTask;
         if(observation.isEmpty()) {
             newTask = TaskNoObservation(task, date, priority, recurrence);
         }
         else {
-            newTask = new Task(task, observation, date, priority, recurrence);
+            newTask = brandNewTask(task, observation, date, priority, recurrence);
         }
         toDoTasks.add(newTask);
     }
