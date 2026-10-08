@@ -1,3 +1,5 @@
+package models;
+
 public enum Priority {
 
     MAXIMUM(1), REGULAR(2), MINIMUM(3);
