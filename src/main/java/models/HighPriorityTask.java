@@ -13,6 +13,7 @@ public class HighPriorityTask extends Task{
 
     }
 
+
     public static HighPriorityTask brandNewTask(String task, LocalDate date, Recurrence recurrence){
         HighPriorityTask brandNewTask = new HighPriorityTask();
         brandNewTask.setTask(task);
