@@ -15,14 +15,7 @@ public class TaskManager {
 
 
 
-        public void createTask(String task, LocalDate date, Recurrence recurrence){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Inform the task's priority level first:");
-            System.out.println("1 - High Priority");
-            System.out.println("2 - Medium Priority");
-            System.out.println("3 - Low Priority");
-            System.out.print("Option: ");
-            int option = sc.nextInt();
+        public void createTask(String task, LocalDate date, Recurrence recurrence, int option){
             Task newTask = switch (option) {
                 case 1 -> HighPriorityTask.brandNewTask(task, date, recurrence);
                 case 2 -> MediumPriorityTask.brandNewTask(task, date, recurrence);
@@ -30,34 +23,29 @@ public class TaskManager {
                 default -> throw new InvalidPriorityLevelException("The priority level ranges from 1 to 3 only");
             };
             tasksToDo.add(newTask);
-            sc.nextLine();
-            sc.close();
         }
 
-        public void deleteTask(){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter the task's date: ");
-            String saidDate = sc.nextLine();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate saidLocalDate = LocalDate.parse(saidDate, formatter);
-            // TREAT HOW THE STRING IS PARSED!
-
-            List<Task>tasksOnSaidDate = new ArrayList<>();
-            int i = 1;
-            System.out.println("All tasks from said date: ");
+        public List<Task> searchAllTasksOnSaidDate(LocalDate date){
+            List<Task>searchResult = new ArrayList<>();
             for (Task task : tasksToDo){
-                if (task.getDate().equals(saidLocalDate)){
-                    System.out.println(i+" - "+task.getTask());
-                    tasksOnSaidDate.add(task);
-                    i+=1;
+                if(task.getDate().equals(date)){
+                    searchResult.add(task);
                 }
             }
-            System.out.println();
-            System.out.println("Enter the task's number to delete it: ");
-            int toBeDeleted = sc.nextInt();
-            tasksToDo.remove(tasksOnSaidDate.get(toBeDeleted-1));
-            tasksOnSaidDate.clear();
-            sc.close();
+            return searchResult;
+        }
+
+        public void numberTasks(List<Task>taskList){
+            System.out.println("Entered the numbering function");
+            for (int i=1; i<=taskList.size();i++){
+                System.out.println(i +" - "+tasksToDo.get(i-1).getTask());
+            }
+            System.out.println("Finished the function");
+        }
+
+
+        public void deleteTask(){
+
         }
 
 
@@ -67,6 +55,10 @@ public class TaskManager {
                 System.out.println("Date: "+ task.getDate());
                 System.out.println("Recurrence Level: "+ task.getRecurrence());
             }
+        }
+
+        public List<Task> getTasks(){
+            return this.tasksToDo;
         }
 
 
